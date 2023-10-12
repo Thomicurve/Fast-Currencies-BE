@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 
 namespace fast_currencies_be;
 
@@ -21,6 +22,16 @@ public class EntityRepository<T> where T : EntityBase
     public IEnumerable<T> GetAll()
     {
         return _dbSet.ToList();
+    }
+
+    public IQueryable<T> GetAllIncluding(params Expression<Func<T, object>>[] includeProperties)
+    {
+        IQueryable<T> query = _dbSet;
+        foreach (var includeProperty in includeProperties)
+        {
+            query = query.Include(includeProperty);
+        }
+        return query;
     }
 
     public void Add(T entity)

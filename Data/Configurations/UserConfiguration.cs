@@ -7,6 +7,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
+        builder.ToTable("Users");
         builder.HasKey(u => u.Id);
 
         builder.Property(u => u.Name)
@@ -15,5 +16,9 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .IsRequired();
         builder.Property(u => u.Password)
             .IsRequired();
+
+        builder.HasOne(u => u.Subscription)
+            .WithMany(s => s.Users)
+            .HasForeignKey(u => u.SubscriptionId);
     }
 }

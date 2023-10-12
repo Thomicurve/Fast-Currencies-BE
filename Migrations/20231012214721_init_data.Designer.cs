@@ -10,8 +10,8 @@ using fast_currencies_be;
 namespace fast_currencies_be.Migrations
 {
     [DbContext(typeof(FastCurrenciesContext))]
-    [Migration("20231010212523_initial_migration")]
-    partial class initial_migration
+    [Migration("20231012214721_init_data")]
+    partial class init_data
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,19 +34,16 @@ namespace fast_currencies_be.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Currencies");
+                    b.ToTable("Currencies", (string)null);
                 });
 
-            modelBuilder.Entity("fast_currencies_be.Subscription", b =>
+            modelBuilder.Entity("fast_currencies_be.Request", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("CurrentRequests")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("MaxRequests")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("UserId")
@@ -57,7 +54,25 @@ namespace fast_currencies_be.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Subscription");
+                    b.ToTable("Requests", (string)null);
+                });
+
+            modelBuilder.Entity("fast_currencies_be.Subscription", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("MaxRequests")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Subscriptions", (string)null);
                 });
 
             modelBuilder.Entity("fast_currencies_be.User", b =>
@@ -78,20 +93,45 @@ namespace fast_currencies_be.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("SubscriptionId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.HasIndex("SubscriptionId");
+
+                    b.ToTable("Users", (string)null);
+                });
+
+            modelBuilder.Entity("fast_currencies_be.Request", b =>
+                {
+                    b.HasOne("fast_currencies_be.User", null)
+                        .WithOne("Request")
+                        .HasForeignKey("fast_currencies_be.Request", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("fast_currencies_be.User", b =>
+                {
+                    b.HasOne("fast_currencies_be.Subscription", "Subscription")
+                        .WithMany("Users")
+                        .HasForeignKey("SubscriptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Subscription");
                 });
 
             modelBuilder.Entity("fast_currencies_be.Subscription", b =>
                 {
-                    b.HasOne("fast_currencies_be.User", "User")
-                        .WithOne()
-                        .HasForeignKey("fast_currencies_be.Subscription", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Users");
+                });
 
-                    b.Navigation("User");
+            modelBuilder.Entity("fast_currencies_be.User", b =>
+                {
+                    b.Navigation("Request")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

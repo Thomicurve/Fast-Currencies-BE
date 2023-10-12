@@ -3,7 +3,11 @@
 public class Subscription : EntityBase
 {
     public int MaxRequests { get; set; }
-    public int CurrentRequests { get; set; }
-    public int UserId { get; set; }
-    public User User { get; set; }
+    public string Description { get; set; } = string.Empty;
+    public List<User> Users { get; set; }
+
+    public Subscription()
+    {
+        this.Users = new List<User>();
+    }
 }

@@ -7,17 +7,12 @@ public class SubscriptionConfiguration : IEntityTypeConfiguration<Subscription>
 {
     public void Configure(EntityTypeBuilder<Subscription> builder)
     {
+        builder.ToTable("Subscriptions");
         builder.HasKey(s => s.Id);
 
-        builder.Property(s => s.CurrentRequests)
-            .IsRequired();
         builder.Property(s => s.MaxRequests)
             .IsRequired();
-        builder.Property(s => s.UserId)
+        builder.Property(s => s.Description)
             .IsRequired();
-
-        builder.HasOne(s => s.User)
-            .WithOne()
-            .HasForeignKey<Subscription>(s => s.UserId);
     }
 }

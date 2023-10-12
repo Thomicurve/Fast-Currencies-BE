@@ -6,7 +6,8 @@ public class FastCurrenciesContext : DbContext
 {
     public DbSet<User> Users { get; set; }
     public DbSet<Currency> Currencies { get; set; }
-    public DbSet<Subscription> Subscription { get; set; }
+    public DbSet<Subscription> Subscriptions { get; set; }
+    public DbSet<Request> Requests { get; set; }
 
     public FastCurrenciesContext(DbContextOptions<FastCurrenciesContext> options) : base(options)
     {
@@ -14,6 +15,7 @@ public class FastCurrenciesContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.ApplyConfiguration(new RequestConfiguration());
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new CurrencyConfiguration());
         modelBuilder.ApplyConfiguration(new SubscriptionConfiguration());
