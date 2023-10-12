@@ -51,4 +51,20 @@ public class UserController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+
+    [Authorize]
+    [HttpPost]
+    [Route("actualizar-subscripcion")]
+    public IActionResult UpdateSubscription([FromBody] UpdateSubscriptionDto dto) {
+        try {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == "userId")?.Value; 
+
+            if(userId is null) throw new Exception("No se pudo obtener el id del usuario");
+
+            _userService.UpdateSubscription(dto.SubscriptionId, int.Parse(userId));
+            return Ok();
+        } catch (Exception ex) {
+            return BadRequest(ex.Message);
+        }
+    }
 }

@@ -90,7 +90,17 @@ public class UserService
             SubscriptionDescription = entity.Subscription.Description
         };
     }
+    public void UpdateSubscription(int subscripcionId,int userId) {
+        User user = _userRepository.GetById(userId)!;
+        Subscription? subscription = _subscriptionRepository.GetById(subscripcionId);
 
+        if (subscription is null) {
+            throw new Exception("No se encontró el tipo de suscripción");
+        }
+
+        user.SubscriptionId = subscription.Id;
+        _userRepository.Update(user);
+    }
     private string HashPassword(string password)
     {
         return BCrypt.Net.BCrypt.HashPassword(password, BCrypt.Net.BCrypt.GenerateSalt());

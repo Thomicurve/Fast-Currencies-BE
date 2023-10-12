@@ -6,5 +6,5 @@ namespace fast_currencies_be;
 [Route("api/[controller]")]
 public class SubscriptionController : ControllerBase
 {
-
+    
 }
