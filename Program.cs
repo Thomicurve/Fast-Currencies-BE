@@ -53,13 +53,15 @@ builder.Services.AddDbContext<FastCurrenciesContext>(options =>
 
 // Services
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<RequestService>();
+builder.Services.AddScoped<CurrencyService>();
 
 // Repository
 builder.Services.AddScoped(typeof(EntityRepository<>));
 
 var app = builder.Build();
 app.UseAuthorization();
-// Configure the HTTP request pipeline.
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

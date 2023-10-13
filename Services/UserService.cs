@@ -10,15 +10,18 @@ public class UserService
 {
     private readonly EntityRepository<User> _userRepository;
     private readonly EntityRepository<Subscription> _subscriptionRepository;
+    private readonly EntityRepository<Request> _requestRepository;
     private readonly IConfiguration _configuration;
     public UserService(
         EntityRepository<User> userRepository,
         EntityRepository<Subscription> subscriptionRepository,
+        EntityRepository<Request> requestRepository,
         IConfiguration configuration)
     {
         _subscriptionRepository = subscriptionRepository;
         _userRepository = userRepository;
         _configuration = configuration;
+        _requestRepository = requestRepository;
     }
 
     public void RegisterUser(RegisterUserDto registerUserDto)
@@ -50,6 +53,12 @@ public class UserService
             Email = registerUserDto.Email,
             Password = registerUserDto.Password,
             SubscriptionId = subscriptionFree.Id
+        });
+
+        _requestRepository.Add(new Request
+        {
+            UserId = _userRepository.GetAll().FirstOrDefault(x => x.Email == registerUserDto.Email)!.Id,
+            CurrentRequests = 0
         });
     }
     public string Authenticate(LoginUserDto loginUserDto)
@@ -101,6 +110,7 @@ public class UserService
         user.SubscriptionId = subscription.Id;
         _userRepository.Update(user);
     }
+    
     private string HashPassword(string password)
     {
         return BCrypt.Net.BCrypt.HashPassword(password, BCrypt.Net.BCrypt.GenerateSalt());
