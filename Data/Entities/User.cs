@@ -8,4 +8,5 @@ public class User : EntityBase
     public int SubscriptionId { get; set; }
     public Subscription Subscription { get; set; }
     public Request Request { get; set; }
+    public List<ConvertionHistory> ConvertionHistories { get; set; }
 }

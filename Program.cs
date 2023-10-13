@@ -59,8 +59,12 @@ builder.Services.AddScoped<CurrencyService>();
 // Repository
 builder.Services.AddScoped(typeof(EntityRepository<>));
 
+// Contexto de la aplicacion
+builder.Services.AddSingleton<FastCurrenciesAppContext>();
+
 var app = builder.Build();
 app.UseAuthorization();
+app.UseMiddleware<AppContextMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {

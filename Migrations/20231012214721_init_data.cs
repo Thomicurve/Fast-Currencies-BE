@@ -12,9 +12,9 @@ namespace fast_currencies_be.Migrations
         {
             migrationBuilder.Sql(@"
                 INSERT INTO Subscriptions (Id, Description, MaxRequests)
-                VALUES (1, 'Free', 10),
-                       (2, 'Premium', 50),
-                       (3, 'Enterprise', 100);
+                VALUES (1, 'Free', 5),
+                       (2, 'Premium', 15),
+                       (3, 'Enterprise', 30);
             ");
         }
 

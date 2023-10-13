@@ -18,8 +18,7 @@ public class CurrencyController : ControllerBase
     public IActionResult Convert(ConvertCurrencyDto convertCurrencyDto)
     {
         try {
-            string userId = User.Claims.FirstOrDefault(x => x.Type == "userId")!.Value;
-            return Ok(_currencyService.Convert(convertCurrencyDto.Amount, int.Parse(userId)));
+            return Ok(_currencyService.Convert(convertCurrencyDto.Amount));
         } catch (Exception e) {
             return BadRequest(e.Message);
         }

@@ -8,6 +8,7 @@ public class FastCurrenciesContext : DbContext
     public DbSet<Currency> Currencies { get; set; }
     public DbSet<Subscription> Subscriptions { get; set; }
     public DbSet<Request> Requests { get; set; }
+    public DbSet<ConvertionHistory> ConvertionHistories { get; set; }
 
     public FastCurrenciesContext(DbContextOptions<FastCurrenciesContext> options) : base(options)
     {
@@ -19,6 +20,7 @@ public class FastCurrenciesContext : DbContext
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new CurrencyConfiguration());
         modelBuilder.ApplyConfiguration(new SubscriptionConfiguration());
+        modelBuilder.ApplyConfiguration(new ConvertionHistoryConfiguration());
         
         base.OnModelCreating(modelBuilder);
     }

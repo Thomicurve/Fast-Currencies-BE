@@ -1,7 +1,6 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Transactions;
 using Microsoft.IdentityModel.Tokens;
 
 namespace fast_currencies_be;
@@ -11,17 +10,20 @@ public class UserService
     private readonly EntityRepository<User> _userRepository;
     private readonly EntityRepository<Subscription> _subscriptionRepository;
     private readonly EntityRepository<Request> _requestRepository;
+    private readonly FastCurrenciesAppContext _appContext;
     private readonly IConfiguration _configuration;
     public UserService(
         EntityRepository<User> userRepository,
         EntityRepository<Subscription> subscriptionRepository,
         EntityRepository<Request> requestRepository,
+        FastCurrenciesAppContext appContext,
         IConfiguration configuration)
     {
         _subscriptionRepository = subscriptionRepository;
         _userRepository = userRepository;
         _configuration = configuration;
         _requestRepository = requestRepository;
+        _appContext = appContext;
     }
 
     public void RegisterUser(RegisterUserDto registerUserDto)
@@ -57,7 +59,9 @@ public class UserService
 
         _requestRepository.Add(new Request
         {
-            UserId = _userRepository.GetAll().FirstOrDefault(x => x.Email == registerUserDto.Email)!.Id,
+            UserId = _userRepository
+                .GetAll()
+                .FirstOrDefault(x => x.Email == registerUserDto.Email)!.Id,
             CurrentRequests = 0
         });
     }
@@ -80,11 +84,12 @@ public class UserService
 
         return this.GenerateJwtToken(user);
     }
-    public UserDto GetUserById(int id)
+    public UserDto GetUserProfile()
     {
+        int userId = _appContext.UserId!.Value;
         User? entity = _userRepository
             .GetAllIncluding(x => x.Subscription)
-            .FirstOrDefault(x => x.Id == id);
+            .FirstOrDefault(x => x.Id == userId);
 
         if (entity is null)
         {
@@ -99,8 +104,8 @@ public class UserService
             SubscriptionDescription = entity.Subscription.Description
         };
     }
-    public void UpdateSubscription(int subscripcionId,int userId) {
-        User user = _userRepository.GetById(userId)!;
+    public void UpdateSubscription(int subscripcionId) {
+        User user = _userRepository.GetById(_appContext.UserId!.Value)!;
         Subscription? subscription = _subscriptionRepository.GetById(subscripcionId);
 
         if (subscription is null) {

@@ -8,8 +8,8 @@ public class CurrencyService
         _requestService = requestService;
     }
 
-    public decimal Convert(decimal amount, int userId) {
-        _requestService.IncrementRequestsCount(userId);
+    public decimal Convert(decimal amount) {
+        _requestService.IncrementRequestsCount();
         return amount * 1.2m;
     }
 }

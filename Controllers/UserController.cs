@@ -41,11 +41,7 @@ public class UserController : ControllerBase
     public IActionResult MiProfile()
     {
         try {
-            var userId = User.Claims.FirstOrDefault(c => c.Type == "userId")?.Value; 
-
-            if(userId is null) throw new Exception("No se pudo obtener el id del usuario");
-
-            var user = _userService.GetUserById(int.Parse(userId));
+            var user = _userService.GetUserProfile();
             return Ok(user);
         } catch (Exception ex) {
             return BadRequest(ex.Message);
@@ -57,11 +53,7 @@ public class UserController : ControllerBase
     [Route("actualizar-subscripcion")]
     public IActionResult UpdateSubscription([FromBody] UpdateSubscriptionDto dto) {
         try {
-            var userId = User.Claims.FirstOrDefault(c => c.Type == "userId")?.Value; 
-
-            if(userId is null) throw new Exception("No se pudo obtener el id del usuario");
-
-            _userService.UpdateSubscription(dto.SubscriptionId, int.Parse(userId));
+            _userService.UpdateSubscription(dto.SubscriptionId);
             return Ok();
         } catch (Exception ex) {
             return BadRequest(ex.Message);
