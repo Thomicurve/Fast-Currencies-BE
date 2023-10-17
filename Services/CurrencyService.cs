@@ -4,12 +4,15 @@ public class CurrencyService
 {
     private readonly RequestService _requestService;
     private readonly EntityRepository<CurrencyRate> _currencyRateRepository;
+    private readonly ConvertionHistoryService _convertionHistoryService;
     public CurrencyService(
         RequestService requestService, 
-        EntityRepository<CurrencyRate> currencyRateRepository)
+        EntityRepository<CurrencyRate> currencyRateRepository,
+        ConvertionHistoryService convertionHistoryService)
     {
         _requestService = requestService;
         _currencyRateRepository = currencyRateRepository;
+        _convertionHistoryService = convertionHistoryService;
     }
 
     public decimal Convert(ConvertCurrencyDto dto) {
@@ -22,6 +25,7 @@ public class CurrencyService
         }
 
         _requestService.IncrementRequestsCount();
+        _convertionHistoryService.RegisterHistory(dto.FromCurrencyId, dto.ToCurrencyId);
         return dto.Amount * rate.Rate;
     }
 }

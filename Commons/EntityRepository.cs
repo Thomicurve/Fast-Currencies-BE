@@ -34,10 +34,11 @@ public class EntityRepository<T> where T : EntityBase
         return query;
     }
 
-    public void Add(T entity)
+    public T Add(T entity)
     {
         _dbSet.Add(entity);
         _context.SaveChanges();
+        return entity;
     }
 
     public void Update(T entity)

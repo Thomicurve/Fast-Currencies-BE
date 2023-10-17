@@ -49,7 +49,7 @@ public class UserService
             throw new Exception("No se encontró la suscripción Gratis");
         }
 
-        _userRepository.Add(new User
+        User userCreated = _userRepository.Add(new User
         {
             Name = registerUserDto.Name,
             Email = registerUserDto.Email,
@@ -59,9 +59,7 @@ public class UserService
 
         _requestRepository.Add(new Request
         {
-            UserId = _userRepository
-                .GetAll()
-                .FirstOrDefault(x => x.Email == registerUserDto.Email)!.Id,
+            UserId = userCreated.Id,
             CurrentRequests = 0
         });
     }

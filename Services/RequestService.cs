@@ -44,14 +44,6 @@ public class RequestService
         } else {
             userRequest.CurrentRequests++;
         }
-
-        _convertionHistoryRepository.Add(new ConvertionHistory
-        {
-            UserId = userId,
-            Date = DateTime.Now,
-            CurrencyFromId = 1,
-            CurrencyToId = 1
-        });
         
         _requestRepository.Update(userRequest);
     }
