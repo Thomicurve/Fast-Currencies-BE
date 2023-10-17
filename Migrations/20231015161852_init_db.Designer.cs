@@ -11,8 +11,8 @@ using fast_currencies_be;
 namespace fast_currencies_be.Migrations
 {
     [DbContext(typeof(FastCurrenciesContext))]
-    [Migration("20231013163944_convertionHistory_added")]
-    partial class convertionHistory_added
+    [Migration("20231015161852_init_db")]
+    partial class init_db
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,11 +55,8 @@ namespace fast_currencies_be.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<decimal>("Price")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

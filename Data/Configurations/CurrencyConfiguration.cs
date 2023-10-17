@@ -10,9 +10,7 @@ public class CurrencyConfiguration : IEntityTypeConfiguration<Currency>
         builder.ToTable("Currencies");
         builder.HasKey(c => c.Id);
         
-        builder.Property(u => u.Price)
-            .IsRequired();
-        builder.Property(u => u.Name)
+        builder.Property(u => u.Code)
             .IsRequired();
     }
 }

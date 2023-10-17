@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace fast_currencies_be.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class init_db : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,8 +17,7 @@ namespace fast_currencies_be.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Price = table.Column<decimal>(type: "TEXT", nullable: false)
+                    Code = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -61,12 +61,47 @@ namespace fast_currencies_be.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ConvertionHistory",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Date = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CurrencyFromId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CurrencyToId = table.Column<int>(type: "INTEGER", nullable: false),
+                    UserId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ConvertionHistory", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ConvertionHistory_Currencies_CurrencyFromId",
+                        column: x => x.CurrencyFromId,
+                        principalTable: "Currencies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ConvertionHistory_Currencies_CurrencyToId",
+                        column: x => x.CurrencyToId,
+                        principalTable: "Currencies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ConvertionHistory_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Requests",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     CurrentRequests = table.Column<int>(type: "INTEGER", nullable: false),
+                    LastRequestMonth = table.Column<int>(type: "INTEGER", nullable: false),
                     UserId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -79,6 +114,21 @@ namespace fast_currencies_be.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ConvertionHistory_CurrencyFromId",
+                table: "ConvertionHistory",
+                column: "CurrencyFromId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ConvertionHistory_CurrencyToId",
+                table: "ConvertionHistory",
+                column: "CurrencyToId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ConvertionHistory_UserId",
+                table: "ConvertionHistory",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Requests_UserId",
@@ -96,10 +146,13 @@ namespace fast_currencies_be.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Currencies");
+                name: "ConvertionHistory");
 
             migrationBuilder.DropTable(
                 name: "Requests");
+
+            migrationBuilder.DropTable(
+                name: "Currencies");
 
             migrationBuilder.DropTable(
                 name: "Users");

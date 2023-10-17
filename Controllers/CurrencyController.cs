@@ -18,7 +18,8 @@ public class CurrencyController : ControllerBase
     public IActionResult Convert(ConvertCurrencyDto convertCurrencyDto)
     {
         try {
-            return Ok(_currencyService.Convert(convertCurrencyDto.Amount));
+            decimal result = _currencyService.Convert(convertCurrencyDto);
+            return Ok(new { value = result});
         } catch (Exception e) {
             return BadRequest(e.Message);
         }

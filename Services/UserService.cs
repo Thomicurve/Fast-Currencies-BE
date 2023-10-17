@@ -84,24 +84,30 @@ public class UserService
 
         return this.GenerateJwtToken(user);
     }
-    public UserDto GetUserProfile()
+    public UserProfileDto GetUserProfile()
     {
         int userId = _appContext.UserId!.Value;
-        User? entity = _userRepository
+        User? user = _userRepository
             .GetAllIncluding(x => x.Subscription)
             .FirstOrDefault(x => x.Id == userId);
 
-        if (entity is null)
+        if (user is null)
         {
             throw new Exception("No se encontró el usuario");
         }
 
-        return new UserDto
+        Request userRequests = _requestRepository
+            .GetAll()
+            .FirstOrDefault(x => x.UserId == userId)!;
+
+        
+        return new UserProfileDto
         {
-            Id = entity.Id,
-            Name = entity.Name,
-            Email = entity.Email,
-            SubscriptionDescription = entity.Subscription.Description
+            Id = user.Id,
+            Name = user.Name,
+            Email = user.Email,
+            SubscriptionDescription = user.Subscription.Description,
+            RequestsRemaining = user.Subscription.MaxRequests - userRequests.CurrentRequests
         };
     }
     public void UpdateSubscription(int subscripcionId) {
