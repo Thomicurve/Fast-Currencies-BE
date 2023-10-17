@@ -55,6 +55,7 @@ builder.Services.AddDbContext<FastCurrenciesContext>(options =>
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<RequestService>();
 builder.Services.AddScoped<CurrencyService>();
+builder.Services.AddScoped<SubscriptionService>();
 
 // Repository
 builder.Services.AddScoped(typeof(EntityRepository<>));

@@ -47,16 +47,4 @@ public class UserController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-
-    [Authorize]
-    [HttpPost]
-    [Route("actualizar-subscripcion")]
-    public IActionResult UpdateSubscription([FromBody] UpdateSubscriptionDto dto) {
-        try {
-            _userService.UpdateSubscription(dto.SubscriptionId);
-            return Ok();
-        } catch (Exception ex) {
-            return BadRequest(ex.Message);
-        }
-    }
 }

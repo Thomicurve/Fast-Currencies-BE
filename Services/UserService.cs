@@ -110,17 +110,6 @@ public class UserService
             RequestsRemaining = user.Subscription.MaxRequests - userRequests.CurrentRequests
         };
     }
-    public void UpdateSubscription(int subscripcionId) {
-        User user = _userRepository.GetById(_appContext.UserId!.Value)!;
-        Subscription? subscription = _subscriptionRepository.GetById(subscripcionId);
-
-        if (subscription is null) {
-            throw new Exception("No se encontró el tipo de suscripción");
-        }
-
-        user.SubscriptionId = subscription.Id;
-        _userRepository.Update(user);
-    }
     
     private string HashPassword(string password)
     {
