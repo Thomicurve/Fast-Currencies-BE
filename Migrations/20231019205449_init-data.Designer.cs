@@ -11,8 +11,8 @@ using fast_currencies_be;
 namespace fast_currencies_be.Migrations
 {
     [DbContext(typeof(FastCurrenciesContext))]
-    [Migration("20231015162544_currencyRate_added")]
-    partial class currencyRate_added
+    [Migration("20231019205449_init-data")]
+    partial class initdata
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,37 +55,20 @@ namespace fast_currencies_be.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Code")
+                    b.Property<decimal>("IC")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Leyend")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Symbol")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
                     b.ToTable("Currencies", (string)null);
-                });
-
-            modelBuilder.Entity("fast_currencies_be.CurrencyRate", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("CurrencyDestinationId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("CurrencyOriginId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<decimal>("Rate")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CurrencyDestinationId");
-
-                    b.HasIndex("CurrencyOriginId");
-
-                    b.ToTable("CurrencyRates", (string)null);
                 });
 
             modelBuilder.Entity("fast_currencies_be.Request", b =>
@@ -97,8 +80,8 @@ namespace fast_currencies_be.Migrations
                     b.Property<int>("CurrentRequests")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("LastRequestMonth")
-                        .HasColumnType("INTEGER");
+                    b.Property<DateTime>("FirstRequestFromMonthDate")
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
@@ -182,25 +165,6 @@ namespace fast_currencies_be.Migrations
                     b.Navigation("CurrencyTo");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("fast_currencies_be.CurrencyRate", b =>
-                {
-                    b.HasOne("fast_currencies_be.Currency", "CurrencyDestination")
-                        .WithMany()
-                        .HasForeignKey("CurrencyDestinationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("fast_currencies_be.Currency", "CurrencyOrigin")
-                        .WithMany()
-                        .HasForeignKey("CurrencyOriginId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CurrencyDestination");
-
-                    b.Navigation("CurrencyOrigin");
                 });
 
             modelBuilder.Entity("fast_currencies_be.Request", b =>

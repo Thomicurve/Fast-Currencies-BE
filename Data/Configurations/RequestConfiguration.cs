@@ -13,8 +13,8 @@ public class RequestConfiguration : IEntityTypeConfiguration<Request>
             .IsRequired();
         builder.Property(r => r.UserId)
             .IsRequired();
-        builder.Property(r => r.LastRequestMonth)
-            .IsRequired();
+        builder.Property(r => r.FirstRequestFromMonthDate)
+            .IsRequired(false);
         
         builder.HasOne<User>()
             .WithOne(u => u.Request)

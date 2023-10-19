@@ -20,8 +20,8 @@ public class ConvertionHistoryService
         
         return history.Select(x => new ConvertionHistoryDto {
             Date = x.Date,
-            CurrencyFromCode = x.CurrencyFrom.Code,
-            CurrencyToCode = x.CurrencyTo.Code
+            CurrencyFromSymbol = x.CurrencyFrom.Symbol,
+            CurrencyToSymbol = x.CurrencyTo.Symbol
         }).ToList();
     }
 

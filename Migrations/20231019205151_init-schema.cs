@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace fast_currencies_be.Migrations
 {
     /// <inheritdoc />
-    public partial class init_db : Migration
+    public partial class initschema : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,7 +17,9 @@ namespace fast_currencies_be.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Code = table.Column<string>(type: "TEXT", nullable: false)
+                    Leyend = table.Column<string>(type: "TEXT", nullable: false),
+                    Symbol = table.Column<string>(type: "TEXT", nullable: false),
+                    IC = table.Column<decimal>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -101,7 +103,7 @@ namespace fast_currencies_be.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     CurrentRequests = table.Column<int>(type: "INTEGER", nullable: false),
-                    LastRequestMonth = table.Column<int>(type: "INTEGER", nullable: false),
+                    FirstRequestFromMonthDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UserId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>

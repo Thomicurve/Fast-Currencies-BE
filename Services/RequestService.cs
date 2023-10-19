@@ -31,11 +31,15 @@ public class RequestService
             .GetAllIncluding(x => x.Subscription)
             .FirstOrDefault(x => x.Id == userId)!;
 
+        if(userRequest.FirstRequestFromMonthDate is null) {
+            userRequest.FirstRequestFromMonthDate = DateTime.Now;
+        }
+ 
         // Si la ultima petición fue en otro mes, se reinicia el contador
-        if (userRequest.LastRequestMonth != DateTime.Now.Month)
+        if ((userRequest.FirstRequestFromMonthDate - DateTime.Now) > TimeSpan.FromDays(30))
         {
             userRequest.CurrentRequests = 1;
-            userRequest.LastRequestMonth = DateTime.Now.Month;
+            userRequest.FirstRequestFromMonthDate = DateTime.Now;
         }
 
         if (userRequest.CurrentRequests >= user.Subscription.MaxRequests)

@@ -3,6 +3,6 @@
 public class ConvertionHistoryDto
 {
     public DateTime Date { get; set; }
-    public string CurrencyFromCode { get; set; } = string.Empty;
-    public string CurrencyToCode { get; set; } = string.Empty;
+    public string CurrencyFromSymbol { get; set; } = string.Empty;
+    public string CurrencyToSymbol { get; set; } = string.Empty;
 }

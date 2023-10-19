@@ -5,21 +5,22 @@
 namespace fast_currencies_be.Migrations
 {
     /// <inheritdoc />
-    public partial class init_data : Migration
+    public partial class initdata : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.Sql(@"
                 INSERT INTO Subscriptions (Id, Description, MaxRequests)
-                VALUES (1, 'Free', 5),
-                       (2, 'Premium', 15),
-                       (3, 'Enterprise', 30);
+                VALUES (1, 'Free', 10),
+                       (2, 'Trial', 100),
+                       (3, 'Pro', 0);
 
-                INSERT INTO Currencies (Id, Code)
-                VALUES (1, 'ARS'),
-                       (2, 'USD'),
-                       (3, 'EUR');
+                INSERT INTO Currencies (Id, Symbol, Leyend, IC)
+                VALUES (1, 'ARS', 'Pesos argentinos', 0.002),
+                       (2, 'USD', 'Dólares americanos', 1),
+                       (3, 'EUR', 'Euros', 1.09),
+                       (4, 'KC', 'Coronas checas', 0.043);
             ");
         }
 

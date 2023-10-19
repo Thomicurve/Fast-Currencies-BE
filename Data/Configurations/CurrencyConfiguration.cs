@@ -9,8 +9,12 @@ public class CurrencyConfiguration : IEntityTypeConfiguration<Currency>
     {
         builder.ToTable("Currencies");
         builder.HasKey(c => c.Id);
-        
-        builder.Property(u => u.Code)
+
+        builder.Property(u => u.Leyend)
+            .IsRequired();
+        builder.Property(u => u.Symbol)
+            .IsRequired();
+        builder.Property(u => u.IC)
             .IsRequired();
     }
 }

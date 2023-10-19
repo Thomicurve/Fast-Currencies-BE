@@ -11,8 +11,8 @@ using fast_currencies_be;
 namespace fast_currencies_be.Migrations
 {
     [DbContext(typeof(FastCurrenciesContext))]
-    [Migration("20231015161955_init_data")]
-    partial class init_data
+    [Migration("20231019205151_init-schema")]
+    partial class initschema
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,7 +55,14 @@ namespace fast_currencies_be.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Code")
+                    b.Property<decimal>("IC")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Leyend")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Symbol")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -73,8 +80,8 @@ namespace fast_currencies_be.Migrations
                     b.Property<int>("CurrentRequests")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("LastRequestMonth")
-                        .HasColumnType("INTEGER");
+                    b.Property<DateTime>("FirstRequestFromMonthDate")
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("UserId")
                         .HasColumnType("INTEGER");

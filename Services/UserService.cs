@@ -60,6 +60,7 @@ public class UserService
         _requestRepository.Add(new Request
         {
             UserId = userCreated.Id,
+            FirstRequestFromMonthDate = null,
             CurrentRequests = 0
         });
     }
