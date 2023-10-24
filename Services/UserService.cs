@@ -10,12 +10,14 @@ public class UserService
     private readonly EntityRepository<User> _userRepository;
     private readonly EntityRepository<Subscription> _subscriptionRepository;
     private readonly EntityRepository<Request> _requestRepository;
+    private readonly RequestService _requestService;
     private readonly FastCurrenciesAppContext _appContext;
     private readonly IConfiguration _configuration;
     public UserService(
         EntityRepository<User> userRepository,
         EntityRepository<Subscription> subscriptionRepository,
         EntityRepository<Request> requestRepository,
+        RequestService requestService,
         FastCurrenciesAppContext appContext,
         IConfiguration configuration)
     {
@@ -23,6 +25,7 @@ public class UserService
         _userRepository = userRepository;
         _configuration = configuration;
         _requestRepository = requestRepository;
+        _requestService = requestService;
         _appContext = appContext;
     }
 
@@ -95,11 +98,12 @@ public class UserService
             throw new Exception("No se encontró el usuario");
         }
 
+        // Antes de obtener las requests valido si se paso el mes, si es así, reseteo las requests
+        _requestService.VerifyUserRequestsDate();
         Request userRequests = _requestRepository
             .GetAll()
             .FirstOrDefault(x => x.UserId == userId)!;
 
-        
         return new UserProfileDto
         {
             Id = user.Id,

@@ -34,13 +34,8 @@ public class RequestService
         if(userRequest.FirstRequestFromMonthDate is null) {
             userRequest.FirstRequestFromMonthDate = DateTime.Now;
         }
- 
-        // Si la ultima petición fue en otro mes, se reinicia el contador
-        if ((userRequest.FirstRequestFromMonthDate - DateTime.Now) > TimeSpan.FromDays(30))
-        {
-            userRequest.CurrentRequests = 1;
-            userRequest.FirstRequestFromMonthDate = DateTime.Now;
-        }
+
+        this.VerifyUserRequestsDate();
 
         if (userRequest.CurrentRequests >= user.Subscription.MaxRequests)
         {
@@ -50,6 +45,25 @@ public class RequestService
         }
         
         _requestRepository.Update(userRequest);
+    }
+
+    public bool VerifyUserRequestsDate()
+    {
+        int userId = _appContext.UserId!.Value;
+        Request userRequest = _requestRepository
+            .GetAll()
+            .FirstOrDefault(x => x.UserId == userId)!;
+
+        // Si la ultima petición fue en otro mes, se reinicia el contador
+        if ((userRequest.FirstRequestFromMonthDate - DateTime.Now) > TimeSpan.FromDays(30))
+        {
+            userRequest.CurrentRequests = 0;
+            userRequest.FirstRequestFromMonthDate = DateTime.Now;
+            _requestRepository.Update(userRequest);
+            return true;
+        }
+
+        return false;
     }
 }
 
