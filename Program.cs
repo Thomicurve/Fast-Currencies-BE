@@ -58,16 +58,16 @@ builder.Services.AddScoped<CurrencyService>();
 builder.Services.AddScoped<SubscriptionService>();
 builder.Services.AddScoped<ConvertionHistoryService>();
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<SessionService>();
 
 // Repository
 builder.Services.AddScoped(typeof(EntityRepository<>));
 
-// Contexto de la aplicacion
-builder.Services.AddSingleton<FastCurrenciesAppContext>();
+// Sirve 
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 app.UseAuthorization();
-app.UseMiddleware<AppContextMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {

@@ -4,25 +4,22 @@ public class RequestService
 {
     private readonly EntityRepository<Request> _requestRepository;
     private readonly EntityRepository<User> _userRepository;
-    private readonly EntityRepository<ConvertionHistory> _convertionHistoryRepository;
-    private readonly FastCurrenciesAppContext _appContext;
-
+    private readonly SessionService _sessionService;
     public RequestService(
         EntityRepository<Request> requestRepository,
         EntityRepository<User> userRepository,
-        EntityRepository<ConvertionHistory> convertionHistoryRepository,
-        FastCurrenciesAppContext appContext
+        SessionService sessionService
     )
     {
         _requestRepository = requestRepository;
         _userRepository = userRepository;
-        _convertionHistoryRepository = convertionHistoryRepository;
-        _appContext = appContext;
+        _sessionService = sessionService;
     }
 
     public void IncrementRequestsCount()
     {
-        int userId = _appContext.UserId!.Value;
+
+        int userId = _sessionService.GetUserId();
         Request userRequest = _requestRepository
             .GetAll()
             .FirstOrDefault(x => x.UserId == userId)!;
@@ -49,7 +46,7 @@ public class RequestService
 
     public bool VerifyUserRequestsDate()
     {
-        int userId = _appContext.UserId!.Value;
+        int userId = _sessionService.GetUserId();
         Request userRequest = _requestRepository
             .GetAll()
             .FirstOrDefault(x => x.UserId == userId)!;

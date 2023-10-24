@@ -5,19 +5,20 @@ namespace fast_currencies_be;
 public class ConvertionHistoryService
 {
     private readonly EntityRepository<ConvertionHistory> _convertionHistoryRepository;
-    private readonly FastCurrenciesAppContext _appContext;
+    private readonly SessionService _sessionService;
     public ConvertionHistoryService (
         EntityRepository<ConvertionHistory> convertionHistoryRepository,
-        FastCurrenciesAppContext appContext) {
+        SessionService sessionService) {
         _convertionHistoryRepository = convertionHistoryRepository;
-        _appContext = appContext;
+        _sessionService = sessionService;
     }
 
     public ICollection<ConvertionHistoryDto> GetHistory() {
+        int userId = _sessionService.GetUserId();
         List<ConvertionHistory> history = _convertionHistoryRepository
             .GetAllIncluding(x => x.CurrencyFrom,
                             x => x.CurrencyTo)
-            .Where(x => x.UserId == _appContext.UserId)
+            .Where(x => x.UserId == userId)
             .ToList();
         
         return history.Select(x => new ConvertionHistoryDto {
@@ -30,8 +31,9 @@ public class ConvertionHistoryService
     }
 
     public void RegisterHistory(RegisterConvertionHistoryDto dto) {
+        int userId = _sessionService.GetUserId();
         _convertionHistoryRepository.Add(new ConvertionHistory {
-            UserId = _appContext.UserId!.Value,
+            UserId = userId,
             Date = DateTime.Now,
             CurrencyFromId = dto.CurrencyFromId,
             CurrencyToId = dto.CurrencyToId,

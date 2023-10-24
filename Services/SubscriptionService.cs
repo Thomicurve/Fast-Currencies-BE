@@ -4,19 +4,20 @@ public class SubscriptionService
 {
     private readonly EntityRepository<Subscription> _subscriptionRepository;
     private readonly EntityRepository<User> _userRepository;
-    private readonly FastCurrenciesAppContext _appContext;
+    private readonly SessionService _sessionService;
     public SubscriptionService(
         EntityRepository<Subscription> subscriptionRepository,
         EntityRepository<User> userRepository,
-        FastCurrenciesAppContext appContext)
+        SessionService sessionService)
     {
         _subscriptionRepository = subscriptionRepository;
         _userRepository = userRepository;
-        _appContext = appContext;
+        _sessionService = sessionService;
     }
     
     public void UpdateSubscription(int subscripcionId) {
-        User user = _userRepository.GetById(_appContext.UserId!.Value)!;
+        int userId = _sessionService.GetUserId();
+        User user = _userRepository.GetById(userId)!;
         Subscription? subscription = _subscriptionRepository.GetById(subscripcionId);
 
         if (subscription is null) {

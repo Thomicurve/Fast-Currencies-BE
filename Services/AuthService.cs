@@ -51,7 +51,8 @@ public class AuthService
             Name = registerUserDto.Name,
             Email = registerUserDto.Email,
             Password = registerUserDto.Password,
-            SubscriptionId = subscriptionFree.Id
+            SubscriptionId = subscriptionFree.Id,
+            Role = Role.User
         });
 
         _requestRepository.Add(new Request
@@ -94,6 +95,7 @@ public class AuthService
         var claims = new List<Claim>
         {
             new Claim("userId", user.Id.ToString()),
+            new Claim("role", user.Role.ToString())
         };
 
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
@@ -103,7 +105,7 @@ public class AuthService
         issuer: _configuration["Jwt:Issuer"],
         audience: _configuration["Jwt:Audience"],
         claims: claims,
-        expires: DateTime.Now.AddMinutes(720),
+        expires: DateTime.Now.AddHours(1),
         signingCredentials: credentials);
 
         var jwt = new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);

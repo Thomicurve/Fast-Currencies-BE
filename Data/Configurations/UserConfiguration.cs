@@ -16,6 +16,8 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .IsRequired();
         builder.Property(u => u.Password)
             .IsRequired();
+        builder.Property(u => u.Role)
+            .IsRequired();
 
         builder.HasOne(u => u.Subscription)
             .WithMany(s => s.Users)

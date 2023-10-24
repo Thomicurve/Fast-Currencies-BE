@@ -1,31 +1,27 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using Microsoft.IdentityModel.Tokens;
-
-namespace fast_currencies_be;
+﻿namespace fast_currencies_be;
 
 public class UserService
 {
     private readonly EntityRepository<User> _userRepository;
     private readonly EntityRepository<Request> _requestRepository;
     private readonly RequestService _requestService;
-    private readonly FastCurrenciesAppContext _appContext;
+    private readonly IHttpContextAccessor _httpContextAccessor;
     public UserService(
         EntityRepository<User> userRepository,
         EntityRepository<Request> requestRepository,
         RequestService requestService,
-        FastCurrenciesAppContext appContext)
+        IHttpContextAccessor httpContextAccessor)
     {
         _userRepository = userRepository;
         _requestRepository = requestRepository;
         _requestService = requestService;
-        _appContext = appContext;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     public UserProfileDto GetUserProfile()
     {
-        int userId = _appContext.UserId!.Value;
+        int userId = int.Parse(_httpContextAccessor.HttpContext.User.FindFirst("userId").Value);
+
         User? user = _userRepository
             .GetAllIncluding(x => x.Subscription)
             .FirstOrDefault(x => x.Id == userId);
@@ -47,7 +43,8 @@ public class UserService
             Name = user.Name,
             Email = user.Email,
             SubscriptionDescription = user.Subscription.Description,
-            RequestsRemaining = user.Subscription.MaxRequests - userRequests.CurrentRequests
+            RequestsRemaining = user.Subscription.MaxRequests - userRequests.CurrentRequests,
+            RolDescription = user.Role.ToString()
         };
     }
 }
