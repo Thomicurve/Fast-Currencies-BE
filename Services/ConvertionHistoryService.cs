@@ -1,4 +1,6 @@
-﻿namespace fast_currencies_be;
+﻿using fast_currencies_be.Dtos;
+
+namespace fast_currencies_be;
 
 public class ConvertionHistoryService
 {
@@ -21,16 +23,20 @@ public class ConvertionHistoryService
         return history.Select(x => new ConvertionHistoryDto {
             Date = x.Date,
             CurrencyFromSymbol = x.CurrencyFrom.Symbol,
-            CurrencyToSymbol = x.CurrencyTo.Symbol
+            CurrencyToSymbol = x.CurrencyTo.Symbol,
+            PriceToConvert = x.PriceToConvert,
+            ConvertedPrice = x.ConvertedPrice
         }).ToList();
     }
 
-    public void RegisterHistory(int fromCurrencyId, int toCurrencyId) {
+    public void RegisterHistory(RegisterConvertionHistoryDto dto) {
         _convertionHistoryRepository.Add(new ConvertionHistory {
             UserId = _appContext.UserId!.Value,
             Date = DateTime.Now,
-            CurrencyFromId = fromCurrencyId,
-            CurrencyToId = toCurrencyId
+            CurrencyFromId = dto.CurrencyFromId,
+            CurrencyToId = dto.CurrencyToId,
+            PriceToConvert = dto.PriceToConvert,
+            ConvertedPrice = dto.ConvertedPrice
         });
     }
 }

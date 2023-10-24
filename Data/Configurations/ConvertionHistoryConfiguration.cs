@@ -13,6 +13,8 @@ public class ConvertionHistoryConfiguration : IEntityTypeConfiguration<Convertio
         builder.Property(x => x.CurrencyToId).IsRequired();
         builder.Property(x => x.UserId).IsRequired();
         builder.Property(x => x.Date).IsRequired();
+        builder.Property(x => x.PriceToConvert).IsRequired();
+        builder.Property(x => x.ConvertedPrice).IsRequired();
 
         builder.HasOne(x => x.CurrencyFrom)
             .WithMany()

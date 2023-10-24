@@ -1,4 +1,6 @@
-﻿namespace fast_currencies_be;
+﻿using fast_currencies_be.Dtos;
+
+namespace fast_currencies_be;
 
 public class CurrencyService
 {
@@ -26,6 +28,18 @@ public class CurrencyService
             throw new Exception("Currency not found");
         }
 
-        return (dto.Amount * currencyFromConvert.IC) / currencyToConvert.IC;
+
+        decimal result = (dto.Amount * currencyFromConvert.IC) / currencyToConvert.IC;
+
+        // Registering convertion history
+        RegisterConvertionHistoryDto convertionHistoryDto = new RegisterConvertionHistoryDto
+        {
+            CurrencyFromId = dto.FromCurrencyId,
+            CurrencyToId = dto.ToCurrencyId,
+            PriceToConvert = dto.Amount,
+            ConvertedPrice = result
+        };
+        _convertionHistoryService.RegisterHistory(convertionHistoryDto);
+        return result;
     }
 }

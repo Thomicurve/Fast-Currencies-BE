@@ -3,6 +3,8 @@
 public class ConvertionHistory : EntityBase
 {
     public DateTime Date { get; set; }
+    public decimal PriceToConvert { get; set; }
+    public decimal ConvertedPrice { get; set; }
     public int CurrencyFromId { get; set; }
     public int CurrencyToId { get; set; }
     public int UserId { get; set; }
