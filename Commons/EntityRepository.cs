@@ -41,7 +41,7 @@ public class EntityRepository<T> where T : EntityBase
         return entity;
     }
 
-    public void Update(T entity)
+    public bool Update(T entity)
     {
         T? entityExisting = _dbSet.FirstOrDefault(x => x.Id == entity.Id);
         if (entityExisting == null) {
@@ -50,11 +50,19 @@ public class EntityRepository<T> where T : EntityBase
         
         _context.Update(entity);
         _context.SaveChanges();
+        return true;
     }
 
-    public void Delete(T entity)
+    public bool Delete(int id)
     {
+        T? entity = _dbSet.FirstOrDefault(x => x.Id == id);
+
+        if(entity == null) {
+            throw new Exception("No se encontró el registro");
+        }
+
         _dbSet.Remove(entity);
         _context.SaveChanges();
+        return true;
     }
 }

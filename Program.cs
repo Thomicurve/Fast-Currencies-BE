@@ -57,6 +57,7 @@ builder.Services.AddScoped<RequestService>();
 builder.Services.AddScoped<CurrencyService>();
 builder.Services.AddScoped<SubscriptionService>();
 builder.Services.AddScoped<ConvertionHistoryService>();
+builder.Services.AddScoped<AuthService>();
 
 // Repository
 builder.Services.AddScoped(typeof(EntityRepository<>));
