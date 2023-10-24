@@ -75,7 +75,7 @@ public class CurrencyController : ControllerBase
         }
     }
 
-    [HttpPost("convertir")]
+    [HttpPost("convert")]
     public IActionResult Convert(ConvertCurrencyDto convertCurrencyDto)
     {
         try {

@@ -15,7 +15,7 @@ public class SubscriptionController : ControllerBase
     }
     
     [HttpPost]
-    [Route("actualizar-subscripcion")]
+    [Route("update-subscription")]
     public IActionResult UpdateSubscription([FromBody] UpdateSubscriptionDto dto) {
         try {
             _subscriptionService.UpdateSubscription(dto.SubscriptionId);

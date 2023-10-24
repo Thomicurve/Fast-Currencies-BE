@@ -15,7 +15,7 @@ public class UserController : ControllerBase
 
     [Authorize]
     [HttpGet]
-    [Route("mi-perfil")]
+    [Route("mi-profile")]
     public IActionResult MiProfile()
     {
         try {
