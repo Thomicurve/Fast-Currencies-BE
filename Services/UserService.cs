@@ -5,22 +5,22 @@ public class UserService
     private readonly EntityRepository<User> _userRepository;
     private readonly EntityRepository<Request> _requestRepository;
     private readonly RequestService _requestService;
-    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly SessionService _sessionService;
     public UserService(
         EntityRepository<User> userRepository,
         EntityRepository<Request> requestRepository,
         RequestService requestService,
-        IHttpContextAccessor httpContextAccessor)
+        SessionService sessionService)
     {
         _userRepository = userRepository;
         _requestRepository = requestRepository;
         _requestService = requestService;
-        _httpContextAccessor = httpContextAccessor;
+        _sessionService = sessionService;
     }
 
     public UserProfileDto GetUserProfile()
     {
-        int userId = int.Parse(_httpContextAccessor.HttpContext.User.FindFirst("userId").Value);
+        int userId = _sessionService.GetUserId();
 
         User? user = _userRepository
             .GetAllIncluding(x => x.Subscription)

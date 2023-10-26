@@ -38,7 +38,7 @@ public class CurrencyController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult GetById(CurrencyForCreationDto currencyDto) {
+    public IActionResult Create(CurrencyForCreationDto currencyDto) {
         try {
             Currency currency = new Currency {
                 Leyend = currencyDto.Leyend,
