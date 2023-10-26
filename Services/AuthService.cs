@@ -95,7 +95,7 @@ public class AuthService
         var claims = new List<Claim>
         {
             new Claim("userId", user.Id.ToString()),
-            new Claim("role", user.Role.ToString())
+            new Claim("rol", user.Role.ToString())
         };
 
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));

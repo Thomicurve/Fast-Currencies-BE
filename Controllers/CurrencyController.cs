@@ -10,12 +10,15 @@ public class CurrencyController : ControllerBase
 {
     private readonly CurrencyService _currencyService;
     private readonly EntityRepository<Currency> _currencyRepository;
+    private readonly SessionService _sessionService;
     public CurrencyController(
         CurrencyService currencyService, 
-        EntityRepository<Currency> currencyRepository)
+        EntityRepository<Currency> currencyRepository,
+        SessionService sessionService)
     {
         _currencyService = currencyService;
         _currencyRepository = currencyRepository;
+        _sessionService = sessionService;
         
     }
 
@@ -39,6 +42,11 @@ public class CurrencyController : ControllerBase
 
     [HttpPost]
     public IActionResult Create(CurrencyForCreationDto currencyDto) {
+        Role roleClaim = _sessionService.GetUserRol();
+        if(roleClaim == Role.User) {
+            return Unauthorized("No tienes permisos para realizar esta acción.");
+        }
+
         try {
             Currency currency = new Currency {
                 Leyend = currencyDto.Leyend,
@@ -53,6 +61,11 @@ public class CurrencyController : ControllerBase
 
     [HttpPut]
     public IActionResult Update(CurrencyForCreationDto dto) {
+        Role roleClaim = _sessionService.GetUserRol();
+        if(roleClaim == Role.User) {
+            return Unauthorized("No tienes permisos para realizar esta acción.");
+        }
+
         try {
             Currency currency = new Currency {
                 Id = dto.Id,
@@ -68,6 +81,11 @@ public class CurrencyController : ControllerBase
 
     [HttpDelete("{id}")]
     public IActionResult Delete(int id) {
+        Role roleClaim = _sessionService.GetUserRol();
+        if(roleClaim == Role.User) {
+            return Unauthorized("No tienes permisos para realizar esta acción.");
+        }
+        
         try {
             return Ok(_currencyRepository.Delete(id));
         } catch (Exception e) {

@@ -18,4 +18,14 @@ public class SessionService
             return int.Parse(userIdClaim.Value);
         }
     }
+
+    public Role GetUserRol() {
+        Claim? userRolClaim = _httpContextAccessor.HttpContext.User.FindFirst("rol");
+
+        if(userRolClaim == null) {
+            throw new Exception("No se pudo validar el rol del usuario.");
+        } else {
+            return (Role)Enum.Parse(typeof(Role), userRolClaim.Value);
+        }
+    }
 }
