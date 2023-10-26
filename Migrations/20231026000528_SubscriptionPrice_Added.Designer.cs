@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using fast_currencies_be;
 
@@ -10,9 +11,11 @@ using fast_currencies_be;
 namespace fast_currencies_be.Migrations
 {
     [DbContext(typeof(FastCurrenciesContext))]
-    partial class FastCurrenciesContextModelSnapshot : ModelSnapshot
+    [Migration("20231026000528_SubscriptionPrice_Added")]
+    partial class SubscriptionPrice_Added
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.12");

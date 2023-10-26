@@ -4,6 +4,7 @@ public class Subscription : EntityBase
 {
     public int MaxRequests { get; set; }
     public string Description { get; set; } = string.Empty;
+    public decimal Price { get; set; }
     public List<User> Users { get; set; }
 
     public Subscription()

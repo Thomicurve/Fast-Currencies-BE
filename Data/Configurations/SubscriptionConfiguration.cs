@@ -14,5 +14,7 @@ public class SubscriptionConfiguration : IEntityTypeConfiguration<Subscription>
             .IsRequired();
         builder.Property(s => s.Description)
             .IsRequired();
+        builder.Property(s => s.Price)
+            .IsRequired();
     }
 }
