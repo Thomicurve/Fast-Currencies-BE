@@ -24,4 +24,13 @@ public class SubscriptionController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+
+    [HttpGet]
+    public IActionResult GetSubscriptions() {
+        try {
+            return Ok(_subscriptionService.GetSubscriptions());
+        } catch (Exception ex) {
+            return BadRequest(ex.Message);
+        }
+    }
 }

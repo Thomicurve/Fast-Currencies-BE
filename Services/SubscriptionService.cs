@@ -15,6 +15,16 @@ public class SubscriptionService
         _sessionService = sessionService;
     }
     
+    public List<SubscriptionDto> GetSubscriptions() {
+        List<SubscriptionDto> subscriptions = _subscriptionRepository.GetAll()
+            .Select(subscription => new SubscriptionDto {
+                Id = subscription.Id,
+                Name = subscription.Description,
+                Price = subscription.Price
+            }).ToList();
+
+        return subscriptions;
+    }
     public void UpdateSubscription(int subscripcionId) {
         int userId = _sessionService.GetUserId();
         User user = _userRepository.GetById(userId)!;
