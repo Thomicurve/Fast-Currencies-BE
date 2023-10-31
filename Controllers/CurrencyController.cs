@@ -67,13 +67,19 @@ public class CurrencyController : ControllerBase
         }
 
         try {
-            Currency currency = new Currency {
-                Id = dto.Id,
-                Leyend = dto.Leyend,
-                Symbol = dto.Symbol,
-                IC = dto.IC
-            };
-            return Ok(_currencyRepository.Update(currency));
+
+            Currency? currentCurrency = _currencyRepository.GetById(dto.Id);
+
+            if(currentCurrency != null) {
+                currentCurrency.IC = dto.IC;
+                currentCurrency.Leyend = dto.Leyend;
+                currentCurrency.Symbol = dto.Symbol;
+
+                return Ok(_currencyRepository.Update(currentCurrency));
+            } else {
+                return NotFound("No se encontró la moneda.");
+            }
+
         } catch (Exception e) {
             return BadRequest(e.Message);
         }
