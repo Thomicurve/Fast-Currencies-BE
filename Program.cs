@@ -63,7 +63,6 @@ builder.Services.AddScoped<SessionService>();
 // Repository
 builder.Services.AddScoped(typeof(EntityRepository<>));
 
-// Sirve 
 builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
