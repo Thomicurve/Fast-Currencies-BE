@@ -19,7 +19,7 @@ public class SubscriptionController : ControllerBase
     public IActionResult UpdateSubscription([FromBody] UpdateSubscriptionDto dto) {
         try {
             _subscriptionService.UpdateSubscription(dto.SubscriptionId);
-            return Ok();
+            return Ok("Suscripción actualizada");
         } catch (Exception ex) {
             return BadRequest(ex.Message);
         }

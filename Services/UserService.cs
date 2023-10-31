@@ -37,13 +37,20 @@ public class UserService
             .GetAll()
             .FirstOrDefault(x => x.UserId == userId)!;
 
+        int requestsRemaining = user.Subscription.MaxRequests - userRequests.CurrentRequests;
+
+        if(requestsRemaining < 0)
+        {
+            requestsRemaining = 0;
+        }
+
         return new UserProfileDto
         {
             Id = user.Id,
             Name = user.Name,
             Email = user.Email,
             SubscriptionDescription = user.Subscription.Description,
-            RequestsRemaining = user.Subscription.MaxRequests - userRequests.CurrentRequests,
+            RequestsRemaining = requestsRemaining,
             RolDescription = user.Role.ToString()
         };
     }
