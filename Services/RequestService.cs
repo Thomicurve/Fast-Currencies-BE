@@ -34,6 +34,12 @@ public class RequestService
 
         this.VerifyUserRequestsDate();
 
+        if(user.Subscription.MaxRequests == 0) {
+            userRequest.CurrentRequests++;
+            _requestRepository.Update(userRequest);
+            return;
+        }
+
         if (userRequest.CurrentRequests >= user.Subscription.MaxRequests)
         {
             throw new Exception("Se ha superado el límite de peticiones");
