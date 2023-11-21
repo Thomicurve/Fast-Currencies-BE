@@ -1,26 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/Users/thomascurveloferrer/Desktop/Austral/Programacion web/FastCurrencies/fast-currencies-be/fast-currencies-be.csproj": {}
+    "C:\\Users\\thomi\\Desktop\\Thomi\\Austral\\Programacion Web\\FastCurrencies\\Fast-Currencies-BE\\fast-currencies-be.csproj": {}
   },
   "projects": {
-    "/Users/thomascurveloferrer/Desktop/Austral/Programacion web/FastCurrencies/fast-currencies-be/fast-currencies-be.csproj": {
+    "C:\\Users\\thomi\\Desktop\\Thomi\\Austral\\Programacion Web\\FastCurrencies\\Fast-Currencies-BE\\fast-currencies-be.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/thomascurveloferrer/Desktop/Austral/Programacion web/FastCurrencies/fast-currencies-be/fast-currencies-be.csproj",
+        "projectUniqueName": "C:\\Users\\thomi\\Desktop\\Thomi\\Austral\\Programacion Web\\FastCurrencies\\Fast-Currencies-BE\\fast-currencies-be.csproj",
         "projectName": "fast-currencies-be",
-        "projectPath": "/Users/thomascurveloferrer/Desktop/Austral/Programacion web/FastCurrencies/fast-currencies-be/fast-currencies-be.csproj",
-        "packagesPath": "/Users/thomascurveloferrer/.nuget/packages/",
-        "outputPath": "/Users/thomascurveloferrer/Desktop/Austral/Programacion web/FastCurrencies/fast-currencies-be/obj/",
+        "projectPath": "C:\\Users\\thomi\\Desktop\\Thomi\\Austral\\Programacion Web\\FastCurrencies\\Fast-Currencies-BE\\fast-currencies-be.csproj",
+        "packagesPath": "C:\\Users\\thomi\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\thomi\\Desktop\\Thomi\\Austral\\Programacion Web\\FastCurrencies\\Fast-Currencies-BE\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/thomascurveloferrer/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\thomi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "/usr/local/share/dotnet/sdk/7.0.308/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -85,7 +86,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.308/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }

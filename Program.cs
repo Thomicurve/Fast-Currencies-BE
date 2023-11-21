@@ -31,6 +31,17 @@ builder.Services.AddSwaggerGen(setupAction =>
 });
 builder.Services.AddControllers();
 builder.Services.AddAuthorization();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(
+        name: "AllowOrigin",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+        });
+});
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options => {
@@ -67,6 +78,7 @@ builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 app.UseAuthorization();
+app.UseCors("AllowOrigin");
 
 if (app.Environment.IsDevelopment())
 {
