@@ -25,7 +25,7 @@ public class CurrencyController : ControllerBase
     [HttpGet]
     public IActionResult GetAll() {
         try {
-            return Ok(_currencyRepository.GetAll());
+            return Ok(_currencyService.GetAll());
         } catch (Exception e) {
             return BadRequest(e.Message);
         }
@@ -68,17 +68,9 @@ public class CurrencyController : ControllerBase
 
         try {
 
-            Currency? currentCurrency = _currencyRepository.GetById(dto.Id);
-
-            if(currentCurrency != null) {
-                currentCurrency.IC = dto.IC;
-                currentCurrency.Leyend = dto.Leyend;
-                currentCurrency.Symbol = dto.Symbol;
-
-                return Ok(_currencyRepository.Update(currentCurrency));
-            } else {
-                return NotFound("No se encontró la moneda.");
-            }
+            bool result = _currencyService.Update(dto);
+            if(!result) throw new Exception("Error al actualizar la moneda");
+            return Ok(result);
 
         } catch (Exception e) {
             return BadRequest(e.Message);

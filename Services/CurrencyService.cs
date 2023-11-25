@@ -18,6 +18,43 @@ public class CurrencyService
         _currencyRepository = currencyRepository;
     }
 
+    public IEnumerable<CurrencyDto> GetAll()
+    {
+        return _currencyRepository.GetAll().Select(c => new CurrencyDto
+        {
+            Id = c.Id,
+            Leyend = c.Leyend,
+            Symbol = c.Symbol,
+            IC = c.IC
+        });
+    }
+
+    public bool Update(CurrencyForCreationDto dto)
+    {
+        Currency? currentCurrency = _currencyRepository.GetById(dto.Id);
+
+        if (currentCurrency != null)
+        {
+            currentCurrency.IC = dto.IC;
+            currentCurrency.Leyend = dto.Leyend;
+            currentCurrency.Symbol = dto.Symbol;
+            return _currencyRepository.Update(currentCurrency);
+        }
+        
+        return false;
+        
+    }
+
+    public bool Create(CurrencyForCreationDto currencyDto)
+    {
+        Currency currency = new Currency
+        {
+            Leyend = currencyDto.Leyend,
+            Symbol = currencyDto.Symbol,
+            IC = currencyDto.IC
+        };
+        return _currencyRepository.Add(currency) != null;
+    }
     public decimal Convert(ConvertCurrencyDto dto) {
         _requestService.IncrementRequestsCount();
         Currency? currencyFromConvert = _currencyRepository.GetById(dto.FromCurrencyId);
