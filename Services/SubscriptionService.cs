@@ -1,4 +1,6 @@
-﻿namespace fast_currencies_be;
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace fast_currencies_be;
 
 public class SubscriptionService
 {
@@ -20,14 +22,23 @@ public class SubscriptionService
             .Select(subscription => new SubscriptionDto {
                 Id = subscription.Id,
                 Name = subscription.Description,
-                Price = subscription.Price
+                Price = subscription.Price,
+                MaxRequestsPerMonth = subscription.MaxRequests
             }).ToList();
 
         return subscriptions;
     }
     public void UpdateSubscription(int subscripcionId) {
         int userId = _sessionService.GetUserId();
-        User user = _userRepository.GetById(userId)!;
+        User? user = _userRepository
+            .GetAllIncluding(x => x.Request)
+            .FirstOrDefault(x => x.Id == userId);
+
+        if (user is null)
+        {
+            throw new Exception("No se encontró el usuario");
+        }
+
         Subscription? subscription = _subscriptionRepository.GetById(subscripcionId);
 
         if (subscription is null) {
@@ -35,6 +46,7 @@ public class SubscriptionService
         }
 
         user.SubscriptionId = subscription.Id;
+        user.Request.CurrentRequests = 0;
         _userRepository.Update(user);
     }
 }
