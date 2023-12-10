@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace fast_currencies_be;
 
@@ -37,4 +38,13 @@ public class AuthController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+
+    [Authorize]
+    [HttpGet("role-admin")]
+    public IActionResult GetUserRoleIsAdmin()
+    {
+        bool result = _authService.UserIsAdmin();
+        return Ok(result);
+    }
+
 }

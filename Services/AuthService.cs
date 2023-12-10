@@ -11,15 +11,19 @@ public class AuthService
     private readonly EntityRepository<User> _userRepository;
     private readonly EntityRepository<Subscription> _subscriptionRepository;
     private readonly EntityRepository<Request> _requestRepository;
+    private readonly SessionService _sessionService;
+
     public AuthService(
         IConfiguration configuration,
         EntityRepository<User> userRepository,
         EntityRepository<Subscription> subscriptionRepository,
-        EntityRepository<Request> requestRepository) {
+        EntityRepository<Request> requestRepository,
+        SessionService sessionService) {
         _configuration = configuration;
         _userRepository = userRepository;
         _subscriptionRepository = subscriptionRepository;
         _requestRepository = requestRepository;
+        _sessionService = sessionService;
     }
 
     
@@ -81,7 +85,16 @@ public class AuthService
 
         return this.GenerateJwtToken(user);
     }
-    
+    public bool UserIsAdmin()
+    {
+        Role userLoggedRole = _sessionService.GetUserRol();
+        if (userLoggedRole == Role.Admin)
+        {
+            return true;
+        }
+
+        return false;
+    }
     private string HashPassword(string password)
     {
         return BCrypt.Net.BCrypt.HashPassword(password, BCrypt.Net.BCrypt.GenerateSalt());
@@ -105,7 +118,7 @@ public class AuthService
         issuer: _configuration["Jwt:Issuer"],
         audience: _configuration["Jwt:Audience"],
         claims: claims,
-        expires: DateTime.Now.AddHours(1),
+        expires: DateTime.Now.AddHours(3),
         signingCredentials: credentials);
 
         var jwt = new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
